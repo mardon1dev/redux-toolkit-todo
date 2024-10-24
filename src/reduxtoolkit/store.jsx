@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import crudSLice from "./slice/crudSLice";
+import crudSlice from "./slice/crudSLice";
 
 export const store = configureStore({
   reducer: {
-    crud: crudSLice,
+    crud: crudSlice,
   },
 });
