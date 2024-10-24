@@ -5,7 +5,7 @@ import {
   addData,
   removeData,
   updateData,
-} from "../reduxtoolkit/slice/crudSLice";
+} from "../reduxtoolkit/slice/crudSlice";
 
 import {
   List,
@@ -286,10 +286,6 @@ const Todo = () => {
                   primary={todo.title}
                   sx={{
                     p: 1,
-                    color: "white",
-                    "&:hover": {
-                      color: "black",
-                    },
                   }}
                 />
               </ListItem>
