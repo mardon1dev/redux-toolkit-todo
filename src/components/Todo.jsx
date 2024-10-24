@@ -271,7 +271,7 @@ const Todo = () => {
                     <IconButton
                       aria-label="delete"
                       sx={{
-                        p:0,
+                        p: 0,
                         color: "error.main",
                         "&:hover": { color: "error.dark" },
                       }}
@@ -299,7 +299,7 @@ const Todo = () => {
               variant="body1"
               color="textSecondary"
               align="center"
-              sx={{ mt: 2, color:"white" }}
+              sx={{ mt: 2, color: "white" }}
             >
               No todos.
             </Typography>
