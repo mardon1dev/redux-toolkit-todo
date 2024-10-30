@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 
 import {
-  addData,
-  removeData,
-  updateData,
-} from "../reduxtoolkit/slice/crudSlice";
+  useGetDataQuery,
+  useAddDataMutation,
+  useUpdateDataMutation,
+  useRemoveDataMutation,
+} from "../store/crudApi";
 
 import {
   List,
@@ -24,11 +24,14 @@ import {
 } from "@mui/material";
 
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
-import { UNSPLASH_ACCESS_KEY, UNSPLASH_API_URL } from "../hooks/useEnv";
 
 const Todo = () => {
-  const dispatch = useDispatch();
-  const todos = useSelector((state) => state.crud.data);
+  const { todos = [] } = useGetDataQuery();
+  const [addToProducts] = useAddDataMutation()
+
+  const [updateData] = useUpdateDataMutation();
+  const [removeData] = useRemoveDataMutation();
+
   const [value, setValue] = useState("");
 
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -42,37 +45,6 @@ const Todo = () => {
     "https://images.pexels.com/photos/27351134/pexels-photo-27351134/free-photo-of-a-boat-by-the-pier.jpeg"
   );
 
-  // Get random image
-  // const fetchBackgroundImage = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `${UNSPLASH_API_URL}?per_page=1&page=${Math.floor(
-  //         Math.random() * 100
-  //       )}`,
-  //       {
-  //         headers: {
-  //           Authorization: UNSPLASH_ACCESS_KEY,
-  //         },
-  //       }
-  //     );
-  //     const data = await response.json();
-  //     const randomImage = data.photos[0];
-  //     setBackgroundImage(randomImage.src.original);
-  //   } catch (error) {
-  //     console.error("Error fetching background image:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchBackgroundImage();
-
-  //   const intervalId = setInterval(() => {
-  //     fetchBackgroundImage();
-  //   }, 10000);
-
-  //   return () => clearInterval(intervalId);
-  // }, []);
-
   // Add todo to data
 
   const handleSubmit = (e) => {
@@ -82,7 +54,7 @@ const Todo = () => {
       title: value,
     };
     if (value.trim().length > 0) {
-      dispatch(addData(newTodo));
+      addToProducts(newTodo);
       setValue("");
     } else {
       alert("Please enter a task");
@@ -97,7 +69,7 @@ const Todo = () => {
   };
 
   const handleDelete = () => {
-    dispatch(removeData(selectedTodo.id));
+    removeData(selectedTodo.id);
     setOpenDeleteDialog(false);
   };
 
@@ -110,12 +82,10 @@ const Todo = () => {
   };
 
   const handleEditSave = () => {
-    dispatch(
-      updateData({
-        id: selectedTodo.id,
-        title: editValue,
-      })
-    );
+    updateData({
+      id: selectedTodo.id,
+      title: editValue,
+    });
     setOpenEditDialog(false);
   };
 
