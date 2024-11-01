@@ -28,12 +28,12 @@ export const crudApi = createApi({
       invalidatesTags: ["Todos"],
     }),
     updateData: builder.mutation({
-      query: (updatedData) => ({
+      query: ({ ...updatedData }) => ({
         url: `/todos/${updatedData.id}`,
         method: "PUT",
         body: updatedData,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Todos", id }],
+      invalidatesTags: ["Todos"],
     }),
   }),
 });

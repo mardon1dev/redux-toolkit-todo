@@ -26,8 +26,8 @@ import {
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
 const Todo = () => {
-  const { todos = [] } = useGetDataQuery();
-  const [addToProducts] = useAddDataMutation()
+  const { data = [] } = useGetDataQuery();
+  const [addToProducts] = useAddDataMutation();
 
   const [updateData] = useUpdateDataMutation();
   const [removeData] = useRemoveDataMutation();
@@ -50,7 +50,7 @@ const Todo = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newTodo = {
-      id: todos.length ? todos[todos.length - 1].id + 1 : 1,
+      id: data.length ? data[data.length - 1].id + 1 : 1,
       title: value,
     };
     if (value.trim().length > 0) {
@@ -68,8 +68,8 @@ const Todo = () => {
     setOpenDeleteDialog(true);
   };
 
-  const handleDelete = () => {
-    removeData(selectedTodo.id);
+  const handleDelete = async () => {
+    await removeData(selectedTodo.id);
     setOpenDeleteDialog(false);
   };
 
@@ -81,8 +81,8 @@ const Todo = () => {
     setOpenEditDialog(true);
   };
 
-  const handleEditSave = () => {
-    updateData({
+  const handleEditSave = async () => {
+    await updateData({
       id: selectedTodo.id,
       title: editValue,
     });
@@ -91,7 +91,7 @@ const Todo = () => {
 
   // Search todo
 
-  const filteredTodos = todos.filter((todo) =>
+  const filteredTodos = data.filter((todo) =>
     todo.title.toLowerCase().includes(searchQuery.trim().toLowerCase())
   );
 
